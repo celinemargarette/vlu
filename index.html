@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Four Pics 1 Word - Group Four</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.cdnjs.com/css?family=Comic+Neue:700" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Landing Page Content -->
+        <div id="landing-page">
+            <div class="game-title">
+                <span class="decoration star1 floating">★</span>
+                <span class="decoration heart floating-delay">♥</span>
+                <h1>
+                    <span class="title-word">FOUR PICS</span>
+                    <span class="title-word">1 WORD</span>
+                </h1>
+                <span class="decoration star2 floating">★</span>
+                <span class="decoration wave floating-delay">~</span>
+            </div>
+            <div class="game-subtitle">by Group Four</div>
+            <button class="play-btn" id="play-btn">PLAY</button>
+        </div>
+        
+        <!-- Username Container -->
+        <div class="username-container" id="username-container">
+            <h2>Enter Your Username</h2>
+            <form class="username-form" id="username-form">
+                <input type="text" id="username-input" placeholder="Letters and numbers only" required>
+                <button type="submit">START</button>
+            </form>
+        </div>
+        
+        <!-- Game Container -->
+        <div class="game-container" id="game-container">
+            <div class="welcome-message" id="welcome-message"></div>
+            
+            <div class="timer-container">
+                <span class="timer-icon">⏱️</span>
+                <span id="timer">0:30</span>
+            </div>
+            
+            <div class="pics-container" id="pics-container">
+                <div class="pic-box">
+                    <span class="pic-icon" id="pic-icon-1">🔥</span>
+                </div>
+                <div class="pic-box">
+                    <span class="pic-icon" id="pic-icon-2">🔍</span>
+                </div>
+                <div class="pic-box">
+                    <span class="pic-icon" id="pic-icon-3">🕯️</span>
+                </div>
+                <div class="pic-box">
+                    <span class="pic-icon" id="pic-icon-4">💡</span>
+                </div>
+            </div>
+            
+            <div class="letter-boxes" id="letter-boxes">
+                <!-- Letter boxes will be added dynamically -->
+            </div>
+            
+            <div class="answer-container">
+                <input type="text" class="answer-input" id="answer-input" placeholder="Your answer">
+                <button class="submit-answer" id="submit-answer">Submit</button>
+                <button class="hint-btn" id="hint-btn">Hint</button>
+            </div>
+            
+            <div class="progress-container">
+                <div class="level-indicator">
+                    <div class="level-text">Level: <span id="current-level">1</span>/6</div>
+                    <div class="score-text">Score: <span id="current-score">0</span></div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results Container -->
+        <div class="results-container" id="results-container">
+            <h2>Game Completed!</h2>
+            <p class="result-message">Great job! Here's your score:</p>
+            <div class="result-score" id="result-score">0/6</div>
+            <div class="result-stars" id="result-stars">★★★</div>
+            <button class="play-again-btn" id="play-again-btn">Play Again</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
