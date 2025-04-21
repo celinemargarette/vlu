@@ -1,42 +1,42 @@
-// Game data
+// Game data with image paths
 const gameData = {
     easy: [
         {
-            images: ["🔥", "🔍", "🕯️", "💡"],
-            answer: "FLAME",
-            hint: "Hot and flickering"
+            images: ["images/cute1.jpg", "images/cute2.jpg", "images/cute3.jpg", "images/cute4.jpg"],
+            answer: "CUTE",
+            hint: "adorable, me, celine"
         },
         {
-            images: ["🐕", "🐈", "🐠", "🐦"],
-            answer: "PETS",
-            hint: "Beloved animal companions"
+            images: ["images/crocs1.jpg", "images/crocs2.jpg", "images/crocs3.jpg", "images/crocs4.jpg"],
+            answer: "CROCS",
+            hint: "marami sa senate"
         },
         {
-            images: ["👟", "🧦", "🧤", "🧢"],
-            answer: "WEAR",
-            hint: "You put these on your body"
+            images: ["images/apple1.jpg", "images/apple2.jpg", "images/apple3.jpg", "images/apple4.jpg"],
+            answer: "APPLE",
+            hint: "crim student: ate pa print ate: a4? crim student: apple"
         }
     ],
     hard: [
         {
-            images: ["📚", "📱", "📰", "🖥️"],
-            answer: "READ",
-            hint: "Activity for your eyes and brain"
+            images: ["images/jojo1.jpg", "images/jojo2.jpg", "images/jojo3.jpg", "images/jojo4.jpg"],
+            answer: "JOJO",
+            hint: "name nila lahat"
         },
         {
-            images: ["🚢", "✈️", "🚗", "🚂"],
-            answer: "TRAVEL",
-            hint: "Moving from place to place"
+            images: ["images/corrupt1.jpg", "images/corrupt2.jpg", "images/corrupt3.jpg", "images/corrupt4.jpg"],
+            answer: "CORRUPT",
+            hint: "government"
         },
         {
-            images: ["😊", "😂", "🎉", "🥳"],
-            answer: "HAPPY",
-            hint: "Positive emotional state"
+            images: ["images/trapo1.jpg", "images/trapo2.jpg", "images/trapo3.jpg", "images/trapo4.jpg"],
+            answer: "TRAPO",
+            hint: "mar"
         }
     ]
 };
 
-// DOM Elements
+// DOM Elements (same as before)
 const landingPage = document.getElementById('landing-page');
 const usernameContainer = document.getElementById('username-container');
 const gameContainer = document.getElementById('game-container');
@@ -58,7 +58,7 @@ const resultStars = document.getElementById('result-stars');
 const playAgainBtn = document.getElementById('play-again-btn');
 const timerEl = document.getElementById('timer');
 
-// Game state
+// Game state (same as before)
 let currentLevel = 1;
 let currentRound = {};
 let score = 0;
@@ -66,7 +66,7 @@ let username = '';
 let timerInterval = null;
 let timeLeft = 30;
 
-// Check if username exists in localStorage
+// Check if username exists in localStorage (same as before)
 window.onload = function() {
     const storedUsername = localStorage.getItem('fourPicOneWordUsername');
     if (storedUsername) {
@@ -75,7 +75,7 @@ window.onload = function() {
     }
 };
 
-// Event Listeners
+// Event Listeners (same as before)
 playBtn.addEventListener('click', () => {
     landingPage.style.display = 'none';
     usernameContainer.style.display = 'block';
@@ -85,7 +85,6 @@ usernameForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const inputValue = usernameInput.value.trim();
     
-    // Validate username (letters and numbers only)
     if (/^[a-zA-Z0-9]+$/.test(inputValue)) {
         username = inputValue;
         localStorage.setItem('fourPicOneWordUsername', username);
@@ -110,9 +109,8 @@ playAgainBtn.addEventListener('click', () => {
 
 hintBtn.addEventListener('click', showHint);
 
-// Functions
+// Functions (updated loadRound function)
 function checkStartPage() {
-    // If username exists, show landing page with play button
     landingPage.style.display = 'block';
     usernameContainer.style.display = 'none';
     gameContainer.style.display = 'none';
@@ -134,10 +132,7 @@ function startTimer() {
         
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            // Time's up logic
             alert(`Time's up! The answer was: ${currentRound.answer}`);
-            
-            // Move to next level
             currentLevel++;
             
             if (currentLevel <= 6) {
@@ -151,18 +146,11 @@ function startTimer() {
 
 function updateTimerDisplay() {
     timerEl.textContent = `0:${timeLeft < 10 ? '0' + timeLeft : timeLeft}`;
-    
-    // Change color when time is running low
-    if (timeLeft <= 10) {
-        timerEl.style.color = '#e94e97';
-    } else {
-        timerEl.style.color = '#a387c8';
-    }
+    timerEl.style.color = timeLeft <= 10 ? '#e94e97' : '#a387c8';
 }
 
 function createLetterBoxes(word) {
     letterBoxes.innerHTML = '';
-    
     for (let i = 0; i < word.length; i++) {
         const letterBox = document.createElement('div');
         letterBox.className = 'letter-box';
@@ -171,50 +159,36 @@ function createLetterBoxes(word) {
 }
 
 function startGame() {
-    // Reset game state
     currentLevel = 1;
     score = 0;
-    
-    // Update UI
     usernameContainer.style.display = 'none';
     gameContainer.style.display = 'block';
     welcomeMessage.textContent = `Welcome, ${username}!`;
     currentLevelEl.textContent = currentLevel;
     currentScoreEl.textContent = score;
     progressBar.style.width = '0%';
-    
-    // Load first round
     loadRound();
 }
 
+// Updated to use actual images
 function loadRound() {
-    // Determine if it's an easy or hard round
     const isEasyRound = currentLevel <= 3;
     const roundIndex = isEasyRound ? currentLevel - 1 : currentLevel - 4;
     const roundData = isEasyRound ? gameData.easy[roundIndex] : gameData.hard[roundIndex];
     
     currentRound = roundData;
     
-    // Update the pictures
     const picBoxes = picsContainer.querySelectorAll('.pic-box');
     picBoxes.forEach((box, index) => {
-        const iconEl = box.querySelector('.pic-icon');
-        iconEl.textContent = roundData.images[index];
+        box.innerHTML = `<img src="${roundData.images[index]}" alt="Game image">`;
     });
     
-    // Create letter boxes for the answer
     createLetterBoxes(roundData.answer);
-    
-    // Clear answer input
     answerInput.value = '';
     answerInput.setAttribute('maxlength', roundData.answer.length);
-    
-    // Update progress
     currentLevelEl.textContent = currentLevel;
     currentScoreEl.textContent = score;
     progressBar.style.width = `${((currentLevel - 1) / 6) * 100}%`;
-    
-    // Start timer
     startTimer();
 }
 
@@ -230,9 +204,7 @@ function checkAnswer() {
         alert(`Incorrect! The answer was: ${currentRound.answer}`);
     }
     
-    // Move to next level or end game
     currentLevel++;
-    
     if (currentLevel <= 6) {
         loadRound();
     } else {
@@ -246,17 +218,11 @@ function endGame() {
     resultsContainer.style.display = 'block';
     resultScore.textContent = `${score}/6`;
     
-    // Set stars based on score
     let stars = '';
-    if (score >= 5) {
-        stars = '★★★★★';
-    } else if (score >= 3) {
-        stars = '★★★★';
-    } else if (score >= 1) {
-        stars = '★★★';
-    } else {
-        stars = '★★';
-    }
+    if (score >= 5) stars = '★★★★★';
+    else if (score >= 3) stars = '★★★★';
+    else if (score >= 1) stars = '★★★';
+    else stars = '★★';
     
     resultStars.textContent = stars;
 }
