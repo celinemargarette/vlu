@@ -1,7 +1,7 @@
 const gameData = {
     easy: [
         {
-            images: [shhs/cute1.jpg, shhs/cute2.jpg, shhs/cute3.jpg, shhs/cute4.jpg],
+            images: ["images/cute1.jpg", "images/cute2.jpg", "images/cute3.jpg", "images/cute4.jpg"],
             answer: "CUTE",
             hint: "adorable, me, celine"
         },
@@ -36,6 +36,7 @@ const gameData = {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
+    // DOM Elements
     const landingPage = document.getElementById('landing-page');
     const usernameContainer = document.getElementById('username-container');
     const gameContainer = document.getElementById('game-container');
@@ -57,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const playAgainBtn = document.getElementById('play-again-btn');
     const timerEl = document.getElementById('timer');
 
+    // Game state
     let currentLevel = 1;
     let currentRound = {};
     let score = 0;
@@ -64,52 +66,49 @@ document.addEventListener('DOMContentLoaded', function() {
     let timerInterval = null;
     let timeLeft = 30;
 
-    const storedUsername = localStorage.getItem('fourPicOneWordUsername');
-    if (storedUsername) {
-        username = storedUsername;
-        checkStartPage();
-    }
-
-    playBtn.addEventListener('click', () => {
-        landingPage.style.display = 'none';
-        usernameContainer.style.display = 'block';
-    });
-
-    usernameForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const inputValue = usernameInput.value.trim();
-        
-        if (/^[a-zA-Z0-9]+$/.test(inputValue)) {
-            username = inputValue;
-            localStorage.setItem('fourPicOneWordUsername', username);
-            startGame();
+    // Initialize game
+    function init() {
+        const storedUsername = localStorage.getItem('fourPicOneWordUsername');
+        if (storedUsername) {
+            username = storedUsername;
+            landingPage.style.display = 'block';
+            usernameContainer.style.display = 'none';
+            gameContainer.style.display = 'none';
+            resultsContainer.style.display = 'none';
         } else {
-            alert('Username should contain only letters and numbers.');
+            landingPage.style.display = 'block';
+            usernameContainer.style.display = 'none';
+            gameContainer.style.display = 'none';
+            resultsContainer.style.display = 'none';
         }
-    });
 
-    submitAnswerBtn.addEventListener('click', checkAnswer);
+        // Event listeners
+        playBtn.addEventListener('click', function() {
+            landingPage.style.display = 'none';
+            usernameContainer.style.display = 'block';
+            usernameInput.focus();
+        });
 
-    answerInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            checkAnswer();
-        }
-    });
+        usernameForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const inputValue = usernameInput.value.trim();
+            
+            if (/^[a-zA-Z0-9]+$/.test(inputValue)) {
+                username = inputValue;
+                localStorage.setItem('fourPicOneWordUsername', username);
+                startGame();
+            } else {
+                alert('Username should contain only letters and numbers.');
+            }
+        });
 
-    playAgainBtn.addEventListener('click', () => {
-        resultsContainer.style.display = 'none';
-        startGame();
-    });
-
-    hintBtn.addEventListener('click', showHint);
-
-    function checkStartPage() {
-        landingPage.style.display = 'block';
-        usernameContainer.style.display = 'none';
-        gameContainer.style.display = 'none';
-        resultsContainer.style.display = 'none';
+        // ... rest of your event listeners ...
     }
 
+    // Start the game initialization
+    init();
+
+    // Game functions
     function showHint() {
         alert(`Hint: ${currentRound.hint}`);
     }
@@ -126,13 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
                 alert(`Time's up! The answer was: ${currentRound.answer}`);
-                currentLevel++;
-                
-                if (currentLevel <= 6) {
-                    loadRound();
-                } else {
-                    endGame();
-                }
+                nextRound();
             }
         }, 1000);
     }
@@ -158,9 +151,6 @@ document.addEventListener('DOMContentLoaded', function() {
         usernameContainer.style.display = 'none';
         gameContainer.style.display = 'block';
         welcomeMessage.textContent = `Welcome, ${username}!`;
-        currentLevelEl.textContent = currentLevel;
-        currentScoreEl.textContent = score;
-        progressBar.style.width = '0%';
         loadRound();
     }
 
@@ -197,7 +187,10 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             alert(`Incorrect! The answer was: ${currentRound.answer}`);
         }
-        
+        nextRound();
+    }
+
+    function nextRound() {
         currentLevel++;
         if (currentLevel <= 6) {
             loadRound();
@@ -220,4 +213,15 @@ document.addEventListener('DOMContentLoaded', function() {
         
         resultStars.textContent = stars;
     }
+
+    // Add remaining event listeners
+    submitAnswerBtn.addEventListener('click', checkAnswer);
+    answerInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') checkAnswer();
+    });
+    playAgainBtn.addEventListener('click', () => {
+        resultsContainer.style.display = 'none';
+        startGame();
+    });
+    hintBtn.addEventListener('click', showHint);
 });
