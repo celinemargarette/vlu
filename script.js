@@ -7,7 +7,7 @@ const gameData = {
             hint: "adorable, me, celine"
         },
         {
-            images: ["images/crocs1.jpg", "images/crocs2.jpg", "images/crocs3.jpg", "images/crocs4.jpg"],
+            images: ["images/croc1.jpg", "images/croc2.jpg", "images/croc3.jpg", "images/croc4.jpg"],
             answer: "CROCS",
             hint: "marami sa senate"
         },
