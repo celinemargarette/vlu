@@ -9,7 +9,7 @@ body {
     background-color: #f9eae8;
     color: #2d4b9a;
     overflow-x: hidden;
-    height: 100vh; /* Prevent scroll */
+    height: 100vh;
     overflow: hidden;
     position: relative;
 }
@@ -34,7 +34,7 @@ body {
 }
 
 .game-title {
-    margin: 0 0 20px 0; /* Reduced for fit */
+    margin: 0 0 20px 0;
     position: relative;
 }
 
@@ -52,7 +52,7 @@ body {
 .game-subtitle {
     font-size: 2rem;
     color: #a387c8;
-    margin-bottom: 30px; /* Reduced for fit */
+    margin-bottom: 30px;
     position: relative;
     font-weight: bold;
 }
@@ -72,9 +72,143 @@ body {
     margin-bottom: 10px;
 }
 
-/* ... (the rest of your CSS remains unchanged, included above) ... */
+.decoration {
+    position: absolute;
+    z-index: 1;
+}
 
-/* Additional Responsive Tweak for 1080p fit */
+.decoration.star1 {
+    top: -20px;
+    right: 20%;
+    color: #e94e97;
+    font-size: 40px;
+}
+
+.decoration.star2 {
+    bottom: -20px;
+    left: 25%;
+    color: #a387c8;
+    font-size: 30px;
+}
+
+.decoration.heart {
+    top: 20px;
+    left: 20%;
+    color: #e94e97;
+    font-size: 30px;
+}
+
+.decoration.wave {
+    bottom: 20px;
+    right: 30%;
+    color: #74c7e5;
+    font-size: 40px;
+}
+
+.floating {
+    animation: floating 3s ease-in-out infinite;
+}
+
+.floating-delay {
+    animation: floating 3s ease-in-out 1.5s infinite;
+}
+
+@keyframes floating {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(0, -10px) rotate(5deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.play-btn {
+    background: linear-gradient(to right, #2d4b9a, #5273c8);
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 18px 80px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 30px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 0 #1a3575, 0 15px 20px rgba(45, 75, 154, 0.3);
+    z-index: 2;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.play-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 13px 0 #1a3575, 0 18px 20px rgba(45, 75, 154, 0.3);
+}
+
+.play-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 5px 0 #1a3575, 0 8px 15px rgba(45, 75, 154, 0.3);
+}
+
+.username-container {
+    max-width: 500px;
+    margin: 100px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.username-container h2 {
+    margin-bottom: 30px;
+    color: #2d4b9a;
+    position: relative;
+    font-size: 2.2rem;
+}
+
+.username-form input {
+    width: 100%;
+    padding: 15px;
+    border: 3px solid #d1dfff;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    font-family: 'Comic Neue', cursive;
+}
+
+.username-form input:focus {
+    outline: none;
+    border-color: #2d4b9a;
+    box-shadow: 0 0 10px rgba(45, 75, 154, 0.1);
+}
+
+.username-form button {
+    background: linear-gradient(to right, #e94e97, #ff7eb6);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 12px 40px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 0 #d33a80, 0 10px 15px rgba(233, 78, 151, 0.3);
+    font-family: 'Comic Neue', cursive;
+    letter-spacing: 1px;
+}
+
+.username-form button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 0 #d33a80, 0 12px 17px rgba(233, 78, 151, 0.3);
+}
+
+.username-form button:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 #d33a80, 0 6px 10px rgba(233, 78, 151, 0.3);
+}
+
 @media screen and (min-height: 900px) and (max-height: 1080px) {
     .game-title h1 {
         font-size: 4.5rem;
@@ -93,3 +227,4 @@ body {
         padding: 15px 60px;
     }
 }
+
