@@ -2,29 +2,29 @@
 const gameData = {
     easy: [
         {
-            images: ["images/cute1.jpg", "images/cute2.jpg", "images/cute3.jpg", "images/cute4.jpg"],
+            images: [cute1.jpg, cute2.jpg, cute3.jpg, cute4.jpg],
             answer: "CUTE",
             hint: "adorable, me, celine"
         },
         {
-            images: ["images/croc1.jpg", "images/croc2.jpg", "images/croc3.jpg", "images/croc4.jpg"],
+            images: [croc1.jpg, croc2.jpg, croc3.jpg, croc4.jpg],
             answer: "CROCS",
             hint: "marami sa senate"
         },
         {
-            images: ["images/apple1.jpg", "images/apple2.jpg", "images/apple3.jpg", "images/apple4.jpg"],
+            images: [apple1.jpg, apple2.jpg, apple3.jpg, apple4.jpg],
             answer: "APPLE",
             hint: "crim student: ate pa print ate: a4? crim student: apple"
         }
     ],
     hard: [
         {
-            images: ["images/jojo1.jpg", "images/jojo2.jpg", "images/jojo3.jpg", "images/jojo4.jpg"],
+            images: [jojo1.jpg, jojo2.jpg, jojo3.jpg, jojo4.jpg],
             answer: "JOJO",
             hint: "name nila lahat"
         },
         {
-            images: ["images/corrupt1.jpg", "images/corrupt2.jpg", "images/corrupt3.jpg", "images/corrupt4.jpg"],
+            images: [corrupt1.jpg, corrupt2.jpg, corrupt3.jpg, corrupt4.jpg],
             answer: "CORRUPT",
             hint: "government"
         },
