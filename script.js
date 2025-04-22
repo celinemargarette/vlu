@@ -35,8 +35,7 @@ const gameData = {
     ]
 };
 
-document.addEventListener('DOMContentLoaded', function() {
-    // DOM Elements
+document.addEventListener('DOMContentLoaded', function () {
     const landingPage = document.getElementById('landing-page');
     const usernameContainer = document.getElementById('username-container');
     const gameContainer = document.getElementById('game-container');
@@ -58,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const playAgainBtn = document.getElementById('play-again-btn');
     const timerEl = document.getElementById('timer');
 
-    // Game state
     let currentLevel = 1;
     let currentRound = {};
     let score = 0;
@@ -66,33 +64,26 @@ document.addEventListener('DOMContentLoaded', function() {
     let timerInterval = null;
     let timeLeft = 30;
 
-    // Initialize game
     function init() {
         const storedUsername = localStorage.getItem('fourPicOneWordUsername');
         if (storedUsername) {
             username = storedUsername;
-            landingPage.style.display = 'block';
-            usernameContainer.style.display = 'none';
-            gameContainer.style.display = 'none';
-            resultsContainer.style.display = 'none';
-        } else {
-            landingPage.style.display = 'block';
-            usernameContainer.style.display = 'none';
-            gameContainer.style.display = 'none';
-            resultsContainer.style.display = 'none';
         }
 
-        // Event listeners
-        playBtn.addEventListener('click', function() {
+        landingPage.style.display = 'block';
+        usernameContainer.style.display = 'none';
+        gameContainer.style.display = 'none';
+        resultsContainer.style.display = 'none';
+
+        playBtn.addEventListener('click', function () {
             landingPage.style.display = 'none';
             usernameContainer.style.display = 'block';
             usernameInput.focus();
         });
 
-        usernameForm.addEventListener('submit', function(e) {
+        usernameForm.addEventListener('submit', function (e) {
             e.preventDefault();
             const inputValue = usernameInput.value.trim();
-            
             if (/^[a-zA-Z0-9]+$/.test(inputValue)) {
                 username = inputValue;
                 localStorage.setItem('fourPicOneWordUsername', username);
@@ -102,47 +93,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // ... rest of your event listeners ...
-    }
-
-    // Start the game initialization
-    init();
-
-    // Game functions
-    function showHint() {
-        alert(`Hint: ${currentRound.hint}`);
-    }
-
-    function startTimer() {
-        clearInterval(timerInterval);
-        timeLeft = 30;
-        updateTimerDisplay();
-        
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            updateTimerDisplay();
-            
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                alert(`Time's up! The answer was: ${currentRound.answer}`);
-                nextRound();
-            }
-        }, 1000);
-    }
-
-    function updateTimerDisplay() {
-        timerEl.textContent = `0:${timeLeft < 10 ? '0' + timeLeft : timeLeft}`;
-        timerEl.style.color = timeLeft <= 10 ? '#e94e97' : '#a387c8';
-    }
-
-    function createLetterBoxes(word) {
-        letterBoxes.innerHTML = '';
-        for (let i = 0; i < word.length; i++) {
-            const letterBox = document.createElement('div');
-            letterBox.className = 'letter-box';
-            letterBox.textContent = '_';
-            letterBoxes.appendChild(letterBox);
-        }
+        submitAnswerBtn.addEventListener('click', checkAnswer);
+        answerInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkAnswer();
+        });
+        playAgainBtn.addEventListener('click', () => {
+            resultsContainer.style.display = 'none';
+            startGame();
+        });
+        hintBtn.addEventListener('click', showHint);
     }
 
     function startGame() {
@@ -158,45 +117,70 @@ document.addEventListener('DOMContentLoaded', function() {
         const isEasyRound = currentLevel <= 3;
         const roundIndex = isEasyRound ? currentLevel - 1 : currentLevel - 4;
         const roundData = isEasyRound ? gameData.easy[roundIndex] : gameData.hard[roundIndex];
-        
+
         currentRound = roundData;
-        
-        const picBoxes = picsContainer.querySelectorAll('.pic-box');
-        picBoxes.forEach((box, index) => {
-            box.innerHTML = `<img src="${roundData.images[index]}" alt="Game image" class="game-image">`;
-        });
-        
-        createLetterBoxes(roundData.answer);
         answerInput.value = '';
-        answerInput.focus();
-        answerInput.setAttribute('maxlength', roundData.answer.length);
+        letterBoxes.innerHTML = '';
+
+        currentRound.images.forEach((src, index) => {
+            const box = document.getElementById(`pic-box-${index + 1}`);
+            box.style.backgroundImage = `url(${src})`;
+        });
+
+        for (let i = 0; i < roundData.answer.length; i++) {
+            const span = document.createElement('span');
+            span.className = 'letter-box';
+            span.textContent = '_';
+            letterBoxes.appendChild(span);
+        }
+
         currentLevelEl.textContent = currentLevel;
         currentScoreEl.textContent = score;
-        progressBar.style.width = `${((currentLevel - 1) / 6) * 100}%`;
+        progressBar.style.width = `${(currentLevel - 1) / 6 * 100}%`;
+
         startTimer();
+    }
+
+    function startTimer() {
+        clearInterval(timerInterval);
+        timeLeft = 30;
+        updateTimer();
+
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            updateTimer();
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert('Time\'s up! Try again!');
+                endGame();
+            }
+        }, 1000);
+    }
+
+    function updateTimer() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     }
 
     function checkAnswer() {
         const userAnswer = answerInput.value.trim().toUpperCase();
-        
-        if (userAnswer === currentRound.answer) {
+        if (userAnswer === currentRound.answer.toUpperCase()) {
             score++;
-            clearInterval(timerInterval);
-            alert('Correct! 🎉');
-            currentScoreEl.textContent = score;
+            if (currentLevel < 6) {
+                currentLevel++;
+                loadRound();
+            } else {
+                endGame();
+            }
         } else {
-            alert(`Incorrect! The answer was: ${currentRound.answer}`);
+            alert('Wrong answer. Try again!');
         }
-        nextRound();
     }
 
-    function nextRound() {
-        currentLevel++;
-        if (currentLevel <= 6) {
-            loadRound();
-        } else {
-            endGame();
-        }
+    function showHint() {
+        alert(currentRound.hint);
     }
 
     function endGame() {
@@ -204,24 +188,8 @@ document.addEventListener('DOMContentLoaded', function() {
         gameContainer.style.display = 'none';
         resultsContainer.style.display = 'block';
         resultScore.textContent = `${score}/6`;
-        
-        let stars = '';
-        if (score >= 5) stars = '★★★★★';
-        else if (score >= 3) stars = '★★★★';
-        else if (score >= 1) stars = '★★★';
-        else stars = '★★';
-        
-        resultStars.textContent = stars;
+        resultStars.textContent = '★'.repeat(score >= 5 ? 3 : score >= 3 ? 2 : 1);
     }
 
-    // Add remaining event listeners
-    submitAnswerBtn.addEventListener('click', checkAnswer);
-    answerInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') checkAnswer();
-    });
-    playAgainBtn.addEventListener('click', () => {
-        resultsContainer.style.display = 'none';
-        startGame();
-    });
-    hintBtn.addEventListener('click', showHint);
+    init();
 });
