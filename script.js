@@ -1,17 +1,17 @@
 const gameData = {
     easy: [
         {
-            images: ["shhs/cute1.jpg", "shhs/cute2.jpg", "shhs/cute3.jpg", "shhs/cute4.jpg"],
+            images: [shhs/cute1.jpg, shhs/cute2.jpg, shhs/cute3.jpg, shhs/cute4.jpg],
             answer: "CUTE",
             hint: "adorable, me, celine"
         },
         {
-            images: ["shhs/croc1.jpg", "shhs/croc2.jpg", "shhs/croc3.jpg", "shhs/croc4.jpg"],
+            images: [shhs/croc1.jpg, shhs/croc2.jpg, shhs/croc3.jpg, shhs/croc4.jpg],
             answer: "CROCS",
             hint: "marami sa senate"
         },
         {
-            images: ["shhs/apple1.jpg", "shhs/apple2.jpg", "shhs/apple3.jpg", "shhs/apple4.jpg"],
+            images: [shhs/apple1.jpg, shhs/apple2.jpg, shhs/apple3.jpg, shhs/apple4.jpg],
             answer: "APPLE",
             hint: "crim student: ate pa print ate: a4? crim student: apple"
         }
