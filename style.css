@@ -45,6 +45,21 @@ body {
     font-weight: bold;
 }
 
+.game-description {
+    max-width: 500px;
+    margin: 0 auto 30px;
+    padding: 15px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 15px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #2d4b9a;
+}
+
+.game-description p {
+    margin-bottom: 10px;
+}
+
 .decoration {
     position: absolute;
     z-index: 1;
@@ -464,6 +479,16 @@ body {
 @media (max-width: 768px) {
     .game-title h1 {
         font-size: 4rem;
+    }
+    
+    .game-subtitle {
+        font-size: 1.8rem;
+    }
+    
+    .game-description {
+        font-size: 1rem;
+        padding: 10px;
+        margin-bottom: 20px;
     }
     
     .pics-container {
